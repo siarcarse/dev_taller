@@ -1,0 +1,26 @@
+{
+    "name": "dev_taller",
+    "version": "1.0.0",
+    "description": "Mi primer proyecto node",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/siarcarse/dev_taller.git"
+    },
+    "keywords": [
+        "js"
+    ],
+    "author": "siarcarse",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/siarcarse/dev_taller/issues"
+    },
+    "homepage": "https://github.com/siarcarse/dev_taller#readme",
+    "dependencies": {
+        "hapi": "^17.2.3",
+        "pg": "^7.4.1"
+    }
+}
