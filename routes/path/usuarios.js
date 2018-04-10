@@ -1,4 +1,4 @@
-module.export = [{
+module.exports = [{
     method: 'GET',
     path: '/usuarios',
     handler: function(request, reply) {
