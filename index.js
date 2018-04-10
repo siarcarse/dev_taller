@@ -1,16 +1,21 @@
-const express = require('express');
-const path = require('path');
+const Hapi = require('hapi');
 
-const app = express();
-
-app.get('/', function(request, response) {
-    //response.sendFile(path.join(__dirname + 'views/index.html'));
-    response.sendfile('views/index.html');
+const server = new Hapi.Server();
+server.connection({
+    host: '0.0.0.0',
+    port: 3000
 });
-app.post('/usuarios', function(request, response) {
-    response.send('Hello Usuarios! POST');
+server.register([{
+    register: require('hapi-router'),
+    options: {
+        routes: 'routes/**/*.js'
+    }
+}], function(err) {
+    if (err) {
+        console.log('Error cargando un módulo');
+    }
 });
 
-app.listen(3000, function() {
-    console.log('Server running on port 3000!');
+server.start(function(err) {
+    console.log('Server running at: ', server.info.uri);
 });
