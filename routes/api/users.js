@@ -11,6 +11,19 @@ module.exports = [{
         });
     }
 }, {
+    method: 'GET',
+    path: '/api/users/{pk}',
+    handler: function(request, reply) {
+        const { pk } = request.params;
+        const sql = 'SELECT * FROM users WHERE pk=$1';
+        request.pg.client.query(sql, [pk], function(err, result) {
+            if (err) {
+                return reply([]);
+            }
+            return reply(result.rows);
+        });
+    }
+}, {
     method: 'POST',
     path: '/api/users/',
     handler: function(request, reply) {
