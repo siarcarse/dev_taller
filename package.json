@@ -20,8 +20,10 @@
     },
     "homepage": "https://github.com/siarcarse/dev_taller#readme",
     "dependencies": {
+        "dotenv": "^5.0.1",
         "express": "^4.16.3",
         "hapi": "^16.6.3",
+        "hapi-postgres-connection": "^6.5.0",
         "hapi-router": "^3.5.0"
     }
 }

@@ -1,5 +1,7 @@
 const Hapi = require('hapi');
+const dotenv = require('dotenv');
 // SIARCARSE@GMAIL.COM
+dotenv.load();
 const server = new Hapi.Server();
 server.connection({
     host: '0.0.0.0',
@@ -10,6 +12,8 @@ server.register([{
     options: {
         routes: 'routes/**/*.js'
     }
+}, {
+    register: require('hapi-postgres-connection')
 }], function(err) {
     if (err) {
         console.log('Error cargando un módulo');
