@@ -2,8 +2,90 @@
 {{#extend "css"}}
     <!-- Mis archivos css -->
 {{/extend}}
+
 <h1>Mi primera vista handlebars</h1>
 
+
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <select id="selectUsers" class="form-control">
+            <option value="y">TEST</option>
+        </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <input type="text" id="nombre" placeholder="Escribe nombre">
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <input type="text" id="apellido">
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <input type="date" id="birthdate">
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <input type="text" id="email">
+    </div>
+    <div class="col-xs-3 col-sm-3 col-md-3 col-md-offset-4 col-lg-3">
+        <button type="button" id="guardar" class="btn btn-large btn-block btn-primary">Guardar</button>
+    </div>
+</div>
+
+
+
+
 {{#extend "js"}}
+    <script>
+        $(document).ready(function() {
+            $('#guardar').click(function(e) {
+                e.preventDefault();
+                var nombre = $('#nombre').val();
+                var apellido = $('#apellido').val();
+                var birthdate = $('#birthdate').val();
+                var email = $('#email').val();
+                if (nombre && apellido && birthdate && email) {
+                    saveUsers(nombre, apellido, birthdate, email);
+                }
+            });
+            getUsers(function(users) {
+                var $selectUsers = $('#selectUsers');
+                $selectUsers.empty();
+
+                users.forEach(user => {
+                    $selectUsers.append($('<option></option>')
+                        .attr('value', user.pk).text(`${user.name} ${user.lastname}`));
+                });
+            });
+        });
+
+        function getUsers(callback) {
+            $.ajax({
+                type: "GET",
+                url: "/api/users/",
+                dataType: "json",
+                success: function(respuesta) {
+                    callback(respuesta);
+                }
+            });
+        }
+
+        function saveUsers(nombre, apellido, birthdate, email) {
+            $.ajax({
+                type: "POST",
+                url: "/api/users/",
+                data: {
+                    name: nombre,
+                    lastname: apellido,
+                    birthdate: birthdate,
+                    email: email
+                },
+                dataType: "json",
+                success: function(response) {
+                    console.log(response);
+                }
+            });
+        }
+    </script>
     <!-- Mis archivos js -->
 {{/extend}}
