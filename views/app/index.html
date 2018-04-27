@@ -6,38 +6,76 @@
 <h1>Mi primera vista handlebars</h1>
 
 
-<div class="row">
+<!-- <div class="row">
     <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
         <select id="selectUsers" class="form-control">
             <option value="y">TEST</option>
         </select>
     </div>
+</div> -->
+
+<a class="btn btn-primary" data-toggle="modal" href='#modal-id'>Nuevo</a>
+<div class="modal fade" id="modal-id">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Nuevo Usuario</h4>
+            </div>
+            <div class="modal-body">
+
+                <form action="" method="POST" role="form">
+                    <legend>Formulario</legend>
+                    <div class="form-group">
+                        <label for="">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Input field">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Apellido</label>
+                        <input type="text" class="form-control" id="apellido" placeholder="Input field">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Nacimiento</label>
+                        <input type="date" class="form-control" id="birthdate" placeholder="Input field">
+                    </div>
+                    <div class="form-group">
+                        <label for="">Email</label>
+                        <input type="text" class="form-control" id="email" placeholder="Input field">
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button id="guardar" type="button" class="btn btn-primary">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row">
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <input type="text" id="nombre" placeholder="Escribe nombre">
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <input type="text" id="apellido">
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <input type="date" id="birthdate">
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-        <input type="text" id="email">
-    </div>
-    <div class="col-xs-3 col-sm-3 col-md-3 col-md-offset-4 col-lg-3">
-        <button type="button" id="guardar" class="btn btn-large btn-block btn-primary">Guardar</button>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRE</th>
+                    <th>APELLIDO</th>
+                    <th>NACIMIENTO</th>
+                    <th>EMAIL</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+
     </div>
 </div>
-
-
-
 
 {{#extend "js"}}
     <script>
         $(document).ready(function() {
+            createtable();
             $('#guardar').click(function(e) {
                 e.preventDefault();
                 var nombre = $('#nombre').val();
@@ -48,15 +86,14 @@
                     saveUsers(nombre, apellido, birthdate, email);
                 }
             });
-            getUsers(function(users) {
+            /* getUsers(function(users) {
                 var $selectUsers = $('#selectUsers');
                 $selectUsers.empty();
-
                 users.forEach(user => {
                     $selectUsers.append($('<option></option>')
                         .attr('value', user.pk).text(`${user.name} ${user.lastname}`));
                 });
-            });
+            }); */
         });
 
         function getUsers(callback) {
@@ -81,9 +118,26 @@
                     email: email
                 },
                 dataType: "json",
-                success: function(response) {
-                    console.log(response);
+                success: function() {
+                    createtable();
+                    $('#modal-id').modal('hide');
                 }
+            });
+        }
+
+        function createtable() {
+            getUsers(function(users) {
+                var html = '';
+                users.forEach(user => {
+                    html += `<tr>
+                                <td>${user.pk}</td>
+                                <td>${user.name}</td>
+                                <td>${user.lastname}</td>
+                                <td>${user.birthdate}</td>
+                                <td>${user.email}</td>
+                            </tr>`;
+                });
+                $('#tableBody').html(html);
             });
         }
     </script>
